@@ -14,7 +14,7 @@ from pymongo import MongoClient
 
 class DBManager:
     def __init__(self, table_name):
-        self.client = MongoClient("127.0.0.1", 27017)
+        self.client = MongoClient("192.168.0.19", 27017,retryWrites="false")
         self.db = self.client["em_tk_database"]
         self.table = self.db[table_name]
 
@@ -51,18 +51,20 @@ class DBManager:
 base_path = os.path.abspath(os.path.join(os.getcwd(), "..")) + "/data/data_code.txt"
 
 # 初始化数据库表结构(首次运行时)
-if __name__ == "__main__":
-    dm = DBManager("history_k_data")
-    __file = open(base_path, "r", encoding="utf-8")
-    tk_list = list()
-    while True:
-        line = __file.readline()
-        if '' == line:
-            break
-        str_code = line.split()[0]
-        str_name = line.split()[1]
-        if "XSHE" in str_code:
-            ticker = "sz." + str_code[:6]
-        elif "XSHG" in str_code:
-            ticker = "sh." + str_code[:6]
-        dm.add_one({"ticker": ticker, "name": str_name})
+# if __name__ == "__main__":
+#     # dm = DBManager("history_k_data")
+#     # dm = DBManager("em_pe_database")
+#     dm = DBManager("em_tk_database")
+#     __file = open(base_path, "r", encoding="utf-8")
+#     tk_list = list()
+#     while True:
+#         line = __file.readline()
+#         if '' == line:
+#             break
+#         str_code = line.split()[0]
+#         str_name = line.split()[1]
+#         if "XSHE" in str_code:
+#             ticker = "sz." + str_code[:6]
+#         elif "XSHG" in str_code:
+#             ticker = "sh." + str_code[:6]
+#         dm.add_one({"ticker": ticker, "name": str_name})
